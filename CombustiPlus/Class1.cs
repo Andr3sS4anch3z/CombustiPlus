@@ -8,14 +8,14 @@ namespace CombustiPlus
 {
     public class  Despacho
     {
-       int Numero { get; set; }
-       string Placa { get; set; }
-       string combustible { get; set; }
-       double Galones { get; set; }
-       double pago { get; set; }
-       double Total { get; set; }
+       public int Numero { get; set; }
+       public string Placa { get; set; }
+       public string Combustible { get; set; }
+       public double Galones { get; set; }
+       public string Pago { get; set; }
+       public double Total { get; set; }
 
-       public override string ToString() => $"Despacho: {Numero}, Placa: {Placa}, Combustible: {combustible}, Galones: {Galones}, Pago: {pago}, Total: {Total}";
+       public override string ToString() => $"{Numero:00}  {Placa,-7} {Combustible,-7} {Galones:F1} gal {Pago,-8} RD$ {Total,9:N2}";
 
     }
 
