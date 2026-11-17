@@ -4,6 +4,7 @@ namespace CombustiPlus
 {
     public partial class Form1 : Form
     {
+        List<Despacho> despachos = new List<Despacho>();
         public Form1()
         {
             InitializeComponent();
@@ -72,6 +73,46 @@ namespace CombustiPlus
         private void btnDespachar_Click(object sender, EventArgs e)
         {
             if (!ValidarDatos()) return;
+            double galones = (double)nudGalones.Value;
+
+            double precio = cmbCombustible.Text switch
+            {
+                "Regular" => 272,
+                "Premium" => 290,
+                "Gasoil" => 225,
+                _ => 0
+            };
+
+            double total = galones * precio;
+            if (galones >= 20) total *= 0.98;
+            if (cmbPago.Text == "Tarjeta") total *= 1.03;
+
+            Despacho d = new Despacho
+            {
+                Numero = despachos.Count + 1,
+                Placa = txtPlaca.Text.Trim(),
+                Combustible = cmbCombustible.Text,
+                Galones = galones,
+                Pago = cmbPago.Text,
+                Total = total
+            };
+
+            despachos.Add(d);
+            lstDespachos.Items.Add(d.ToString());
+
+            double totalVendido = 0;
+            double galonesTotales = 0;
+            Despacho mayor = despachos[0];
+
+            foreach (Despacho x in despachos)
+            {
+                totalVendido += x.Total;
+                galonesTotales += x.Galones;
+                if (x.Total > mayor.Total) mayor = x;
+            }
+
+            lblResumen.Text = FormattableString.Invariant(
+                $"{despachos.Count} despachos · Vendido RD$ {totalVendido:N2} · Galones {galonesTotales:F1} · Mayor: #{mayor.Numero:00} {mayor.Placa} (RD$ {mayor.Total:N2})");
         }
     }
 }
