@@ -114,5 +114,24 @@ namespace CombustiPlus
             lblResumen.Text = FormattableString.Invariant(
                 $"{despachos.Count} despachos · Vendido RD$ {totalVendido:N2} · Galones {galonesTotales:F1} · Mayor: #{mayor.Numero:00} {mayor.Placa} (RD$ {mayor.Total:N2})");
         }
+
+        private void btnPorCombustible_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, decimal> galonesPorCombustible = new Dictionary<string, decimal>();
+
+            foreach (Despacho d in despachos)
+            {
+                if (galonesPorCombustible.ContainsKey(d.Combustible))
+                    galonesPorCombustible[d.Combustible] += (decimal)d.Galones;
+                else
+                    galonesPorCombustible[d.Combustible] = (decimal)d.Galones;
+            }
+
+            lstDetalle.Items.Clear();
+            foreach (var par in galonesPorCombustible)
+            {
+                lstDetalle.Items.Add(FormattableString.Invariant($"{par.Key}: {par.Value:F1} gal"));
+            }
+        }
     }
 }

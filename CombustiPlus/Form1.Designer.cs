@@ -195,6 +195,7 @@ namespace CombustiPlus
             btnPorCombustible.TabIndex = 1;
             btnPorCombustible.Text = "Galones por combustible";
             btnPorCombustible.UseVisualStyleBackColor = true;
+            btnPorCombustible.Click += btnPorCombustible_Click;
             // 
             // lstDespachos
             // 
